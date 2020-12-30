@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 定义将对象信息转换为(key,value)键值对的查询字符串
+      function getStr(data) {
+        const arr = []
+        for (let k in data) {
+          // 将每个键值对当作数组的一个元素
+          arr.push(`${k}=${data[k]}`)
+        }
+        // 将数组拆分成键值对并且用&链接的字符串
+        return arr.join('&')
+      }
+
+      function myAjax(obj) {
+        // 实例化XMLHttpRequest对象
+        const xhr = new XMLHttpRequest()
+        // 获得用户传输过来的对象中data的信息 并转换成查询字符串
+        const dataStr = getStr(obj.data)
+        // 这里要判断用户发送请求的类型是什么
+        if ((obj.method && obj.method.toUpperCase() === 'GET') || (obj.type && obj.type.toUpperCase() === 'GET')) {
+          // 如果是GET请求
+          //   调用open方法
+          xhr.open('GET', obj.url + '?' + dataStr)
+          //   调用send方法
+          xhr.send()
+        } else {
+          // 如果是POST请求
+          //   调用open方法
+          xhr.open('POST', obj.url)
+          //   调用setRequestHeader
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+          //   调用send方法
+          xhr.send(dataStr)
+        }
+        // 注册readystatechange监听事件
+        xhr.addEventListener('readystatechange', function () {
+          // 如果xhr的状态码为服务器传输完成并且http状态码显示响应完成
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            //   将xhr的responseText响应值JSON解析后返回给obj对象的方法
+            obj.success(JSON.parse(xhr.responseText))
+          }
+        })
+      }
+    </script>
+    <script>
+      // 调用自己封装的Ajax函数
+      myAjax({
+        type: 'GET',
+        url: 'http://www.liulongbin.top:3006/api/getbooks',
+        data: { id: 2 },
+        success(res) {
+          console.log(res)
+        }
+      })
+    </script>
+  </body>
+</html>

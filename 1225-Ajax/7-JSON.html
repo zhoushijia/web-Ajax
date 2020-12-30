@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // JSON中不能有undefined和function、Symbol
+      let str = `{"status":200,"msg":"获取图书列表成功","data":[{"id":1,"bookname":"西游记","author":"吴承恩","publisher":"北京图书出版社"},{"id":2,"bookname":"红楼梦","author":"曹雪芹","publisher":"上海图书出版社"},{"id":3,"bookname":"三国演义","author":"罗贯中","publisher":"北京图书出版社"},{"id":153,"bookname":"45654","author":"999","publisher":"5132"},{"id":158,"bookname":"水浒传1","author":"施耐庵1","publisher":"上海图书出版社1"},{"id":155,"bookname":"史记","author":"司马迁","publisher":"北京"},{"id":156,"bookname":"黑马","author":"白马","publisher":"传智播客"},{"id":164,"bookname":"水浒传3","author":"施耐庵3","publisher":"上海图书出版2"},{"id":163,"bookname":"水浒传2","author":"施耐庵2","publisher":"上海图书出版社2"}]}`
+      let obj = JSON.parse(str)
+      console.log(obj)
+      console.log('-----------------------')
+      console.log(JSON.stringify(obj, null, 4))
+    </script>
+  </body>
+</html>

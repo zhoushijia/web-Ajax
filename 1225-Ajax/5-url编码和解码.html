@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      let str = '黑马程序员/'
+      //   编码
+      let str1 = encodeURI(str)
+      console.log(str1)
+      console.log('--------------')
+      //   解码
+      let str2 = decodeURI(str1)
+      console.log(str2)
+      console.log('================')
+      //   编码特殊字符
+      let str3 = encodeURIComponent(str)
+      console.log(str3)
+      //   解码特殊字符
+      let str4 = decodeURIComponent(str3)
+      console.log(str4)
+    </script>
+  </body>
+</html>

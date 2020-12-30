@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./jquery-3.5.1.min.js"></script>
+  </head>
+  <body>
+    <input type="file" name="" id="file" style="display: none" />
+    <input type="submit" id="submit" value="上传文件" /><br />
+    <!-- 进度条 -->
+    <progress value="0" max="100" id="percent"></progress><br />
+    <img src="" alt="" id="img" />
+    <img src="./loading.gif" id="loading" style="display: none" alt="" />
+    <script>
+      // 全局ajax事件检测
+      $(document).ajaxStart(function () {
+        $('#loading').show()
+      })
+      $(document).ajaxStop(function () {
+        $('#loading').hide()
+      })
+      // 实现一个按钮上传文件
+      $('#submit').on('click', function () {
+        $('#file').trigger('click')
+      })
+      $('#file').on('change', function () {
+        //   得到上传的文件  是个伪数组 验证文件是否添加
+        const files = this.files
+        if (files.length <= 0) return alert('未选择文件')
+        // 创建FormData对象
+        const fd = new FormData()
+        // avatar是后端提供的属性名
+        fd.append('avatar', files[0])
+        // 创建请求
+        $.ajax({
+          method: 'POST',
+          url: 'http://www.liulongbin.top:3006/api/upload/avatar',
+          data: fd,
+          processData: false,
+          contentType: false,
+          success(res) {
+            console.log(res)
+            $('#img').prop('src', URL.createObjectURL(files[0]))
+          },
+          //   监听进度条
+          xhr() {
+            const xhr = new XMLHttpRequest()
+            xhr.upload.addEventListener('progress', function (e) {
+              if (e.lengthComputable) {
+                const per = Math.ceil(e.loaded / e.total) * 100
+                $('#percent').val(per)
+                console.log(222222)
+              }
+            })
+            xhr.upload.onload = function () {
+              // 进度条很多行内样式都没有，背景颜色也没有 所以以下语句是不行的
+              //   $('#percent').prop('style', 'color:red;')
+              console.log(1111111)
+            }
+            return xhr
+          }
+          //   当前Ajax请求监测
+          //   beforeSend() {
+          //     $('#loading').show()
+          //   },
+          //   complete() {
+          //     $('#loading').hide()
+          //   }
+        })
+      })
+    </script>
+  </body>
+</html>

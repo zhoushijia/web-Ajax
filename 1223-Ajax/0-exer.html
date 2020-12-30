@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./bootstrap.css" />
+  </head>
+  <body style="padding: 15px">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">图书管理</h3>
+      </div>
+      <div class="form-inline panel-body" style="padding: 15px">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-addon">书名</div>
+            <input type="text" class="form-control" id="bookInput" placeholder="请输入书名" />
+          </div>
+          <div class="input-group">
+            <div class="input-group-addon">作者</div>
+            <input type="text" class="form-control" id="authorInput" placeholder="请输入作者" />
+          </div>
+          <div class="input-group">
+            <div class="input-group-addon">出版社</div>
+            <input type="text" class="form-control" id="publisherInput" placeholder="请输入出版社" />
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary" id="sub">添加</button>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>书名</th>
+            <th>作者</th>
+            <th>出版社</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </body>
+
+  <script src="./jquery-3.5.1.min.js"></script>
+  <script>
+    $(function () {
+      //   从后台获取数据
+      function getBookList() {
+        $.get('http://www.liulongbin.top:3006/api/getbooks', (res) => {
+          if (res.status != 200) return alert('提取数据失败')
+          // 这里存储的是地址，所以内部数据变化不会有错误
+          const rows = []
+          $.each(res.data, (i, item) => {
+            rows.push(`
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.bookname}</td>
+                <td>${item.author}</td>
+                <td>${item.publisher}</td>
+                <td><a href="javascript:;" class="del" data-id="${item.id}">删除</a></td>
+            </tr>
+            `)
+          })
+          // rows数组必须转换成字符串再放入tbody中
+          $('tbody').empty().append(rows.join(''))
+        })
+      }
+      getBookList()
+
+      //   添加数据
+      $('#sub').on('click', function () {
+        const bookInput = $('#bookInput').val().trim()
+        const authorInput = $('#authorInput').val().trim()
+        const publisherInput = $('#publisherInput').val().trim()
+        // 判断输入框是否输入内容
+        if (bookInput.length <= 0 || authorInput.length <= 0 || publisherInput.length <= 0) return alert('输入不能为空')
+        $.post('http://www.liulongbin.top:3006/api/addbook', { bookname: bookInput, author: authorInput, publisher: publisherInput }, (res) => {
+          // 程序到这里数据已经进入服务器
+          if (res.status == 201) {
+            //   添加成功，重新渲染
+            getBookList()
+            alert(res.msg)
+          } else if (res.status == 500) {
+            alert('添加失败')
+          } else {
+            alert(res.msg)
+          }
+          $('#bookInput').val('')
+          $('#authorInput').val('')
+          $('#publisherInput').val('')
+        })
+      })
+      //   删除数据
+      //   事件委托
+      $('tbody').on('click', '.del', function () {
+        if (confirm('你忍心删除我吗？')) {
+          // 获取要删除图书的id
+          //   获取自定义元素
+          const id = $(this).data('id')
+          $.ajax({
+            method: 'GET',
+            url: 'http://www.liulongbin.top:3006/api/delbook',
+            data: { id },
+            success(res) {
+              if (res.status == 200) {
+                alert(res.msg)
+                // 删除成功，重新渲染
+                getBookList()
+              } else if (res.status == 500) {
+                alert(res.msg)
+              } else if (res.status == 501) {
+                alert(res.msg)
+              } else {
+                alert(res.msg)
+              }
+            }
+          })
+        }
+      })
+    })
+  </script>
+</html>

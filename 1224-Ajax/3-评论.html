@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./bootstrap.css" />
+    <script src="./js/jquery-3.5.1.min.js"></script>
+    <script src="./js/cmt.js"></script>
+  </head>
+  <body style="padding: 15px">
+    <div class="panel panel-primary">
+      <div class="panel-heading">发表评论</div>
+      <div class="panel-body">
+        <form action="" method="POST" role="form" id="form1">
+          <div class="form-group">
+            <label for="exampleInputEmail1">评论人：</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" name="username" placeholder="贵姓" />
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">评论内容：</label>
+            <textarea class="form-control" id="exampleInputEmail1" name="content" placeholder="说点什么吧..." style="resize: none"></textarea>
+          </div>
+          <button id="btn" type="submit" class="btn btn-primary">发表评论</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- 评论显示区 -->
+    <ul class="list-group" id="cmts">
+      <li class="list-group-item">
+        <span class="badge" style="background-color: #f0ad4e">评论时间：</span>
+        <span class="badge" style="background-color: #5bc0de">评论人：</span>
+        Cras justo odio
+      </li>
+    </ul>
+  </body>
+</html>

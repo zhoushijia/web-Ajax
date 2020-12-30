@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+      }
+      img {
+        position: absolute;
+      }
+    </style>
+    <script src="./jquery.js"></script>
+  </head>
+  <body>
+    <!-- 节流 -->
+    <img src="./angel.gif" alt="" />
+    <script>
+      $(function () {
+        let timer = null
+        $(document).on('mousemove', function (e) {
+          // 节流
+          if (timer) return
+          timer = setTimeout(function () {
+            $('img')
+              .css('left', e.pageX + 'px')
+              .css('top', e.pageY + 'px')
+            // 置空
+            timer = null
+            console.log(1111)
+          }, 30)
+        })
+      })
+    </script>
+  </body>
+</html>

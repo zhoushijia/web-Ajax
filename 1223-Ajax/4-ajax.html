@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>ajax发送get请求</button>
+    <script src="./jquery-3.5.1.min.js"></script>
+    <script>
+      $('button').on('click', function () {
+        $.ajax({
+          type: 'GET',
+          url: 'http://www.liulongbin.top:3006/api/getbooks',
+          data: { id: 2 },
+          success(res) {
+            return res
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

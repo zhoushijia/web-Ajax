@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form id="form1">
+      书名:<input type="text" name="bookname" /> 作者:<input type="text" name="author" /> 出版社:<input type="text" name="publisher" />
+      <button>提交</button>
+    </form>
+
+    <script src="./js/jquery-3.5.1.min.js"></script>
+    <script>
+      $(function () {
+        $('#form1').on('submit', function (e) {
+          // 组织表单默认跳转；防止数据丢失
+          e.preventDefault()
+          //   拿到表单中有name属性的提交数据  字符串格式
+          const data = $(this).serialize()
+          //   使用ajax来提交数据，提高用户体验（默认跳转；防止数据丢失）
+          $.ajax({
+            type: 'POST',
+            url: 'http://www.liulongbin.top:3006/api/addbook',
+            data,
+            success(res) {
+              console.log(res)
+            }
+          })
+        })
+      })
+    </script>
+  </body>
+</html>

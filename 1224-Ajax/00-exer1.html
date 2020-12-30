@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="box"></div>
+    <!--2. 定义模板结构 -->
+    <script type="text/html" id="tpl-msg">
+      <div>姓名：{{name}}</div>
+      <div>年龄：{{ age }}</div>
+      <div>性别：{{ gender}}</div>
+      <div>住址：{{address }}</div>
+    </script>
+    <script>
+      //   1. 定义对象数据
+      const data = { name: '李斯', age: '18', gender: '男', address: '秦' }
+      //   3. 调用自己定义的模板引擎  获得拼接好的字符串
+      const str = template('tpl-msg', data)
+      //   4. 将得到的字符串放入需要的位置
+      document.querySelector('.box').innerHTML = str
+      // 封装自己的模板引擎函数
+      function template(id, data) {
+        //   获取模板结构的字符串
+        let str = document.querySelector('#tpl-msg').innerHTML
+        // 定义正则
+        const reg = /{{\s*(\w+)\s*}}/g
+        // 匹配 查找 替换
+        return str.replace(reg, (...args) => data[args[1]])
+      }
+    </script>
+  </body>
+</html>

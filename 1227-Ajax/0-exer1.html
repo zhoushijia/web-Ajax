@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./jquery-3.5.1.min.js"></script>
+  </head>
+  <body>
+    <script>
+      $.ajax({
+        method: 'GET',
+        url: 'http://www.liulongbin.top:3006/api/jsonp',
+        data: { name: 'zs', age: '20' },
+        dataType: 'jsonp',
+        jsonp: 'callback',
+        jsonpCallback: 'bbq',
+        success(res) {
+          console.log(res)
+        }
+      })
+    </script>
+  </body>
+</html>

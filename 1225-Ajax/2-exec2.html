@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 第二种方法
+      const obj = {
+        name: '张三',
+        age: 18,
+        sex: '男'
+      }
+      let str = '我是{{ name }},我今年{{age}}岁,我是{{sex}}生'
+      // 这里正则不能加g,exec根据lastIndex查找 exec还是保留的上一次的lastIndex,但是字符串确实更新后的字符串了
+      let reg = /{{\s*(\w+)\s*}}/
+      let arr = null
+      while ((arr = reg.exec(str))) {
+        str = str.replace(arr[0], obj[arr[1]])
+        // ["{{ name }}", "name", index: 2, input: "我是{{ name }},我今年{{age}}岁,我是{{sex}}生", groups: undefined]
+        console.log(arr)
+        // 数组中的index: 2属性是通过arr.index定义的
+      }
+      console.log(str)
+    </script>
+  </body>
+</html>

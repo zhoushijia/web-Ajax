@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 创造xhr对象
+      const xhr = new XMLHttpRequest()
+      //   调用xhr.open()方法
+      xhr.open('GET', 'http://www.liulongbin.top:3006/api/getbooks')
+      //   xhr.send()发送请求
+      xhr.send()
+      //   给xhr注册readystatechange监听事件
+      xhr.onreadystatechange = function () {
+        //   这个监听事件出发了很多次 readyState 0 1 2 3 4
+        // 0 ：实例化了xhr对象
+        // 1 ：open方法执行完毕
+        // 2 ：send方法执行完毕 responseHeader接受完成
+        // 3 ：数据正在传输中
+        // 4 ：服务器数据传输完成或者失败
+        // 判断xhr的对象状态码(readyState)和http状态码(status)
+        // 对象状态码(readyState)为4时表示服务器数据发送完成
+        // http状态码(status)为200时表示服务器数据响应成功
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          // 获取xhr响应的数据
+          //   xhr.responseText返回的staus是后端返回的数据与xhr.status是不同的
+          console.log(xhr.responseText)
+        }
+      }
+    </script>
+  </body>
+</html>

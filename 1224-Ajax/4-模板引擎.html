@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <!-- 1.引入模板引擎js文件 -->
+    <script src="./js/template-web.js"></script>
+  </head>
+  <body>
+    <!-- 3. 模板结构 type -->
+    <script type="text/html" id="templateHtml">
+      <h1>{{name}}---{{age}}</h1>
+    </script>
+    <script>
+      // 2. 获得数据
+      const data = { name: 'ls', age: 18 }
+      // 4. 调用模板引擎方法
+      const htmlStr = template('templateHtml', data)
+      // 5. 将得到的模板字符串加到需要的位置
+      document.querySelector('body').innerHTML = htmlStr
+    </script>
+  </body>
+</html>

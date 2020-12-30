@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 500px;
+        height: 400px;
+        border: 1px solid red;
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+    <script>
+      const oDiv = document.querySelector('div')
+      oDiv.onmousemove = debounce(function (e) {
+        this.innerHTML = `x:${e.pageX},y:${e.pageY}`
+        // console.log(this)
+      }, 300)
+
+      //   封装防抖函数
+      //   当前使用情景 这个函数只会被调用一次
+      function debounce(callback, time) {
+        let timer = null
+        // 返回的函数赋值给move事件
+        // return function (e) {
+        //   // console.log(arguments)
+        //   // 谁调用谁就是this
+        //   // console.log(this)
+        //   clearTimeout(timer)
+        //   timer = setTimeout(
+        //     function () {
+        //       callback.call(this, e)
+        //     }.bind(this),
+        //     time
+        //   )
+        // }
+        // 只会被调用一次
+        console.log(1111111)
+        return function () {
+          // 谁调用谁就是this
+          // console.log(this)
+          clearTimeout(timer)
+          // 这里的arguments[0] === e
+          timer = setTimeout(() => {
+            // console.log(arguments)
+            callback.apply(this, arguments)
+          }, time)
+        }
+      }
+    </script>
+  </body>
+</html>

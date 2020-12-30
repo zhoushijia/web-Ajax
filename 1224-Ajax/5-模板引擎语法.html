@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <!-- 1. 导入模板引擎 -->
+    <!-- 在 window 全局，多一个函数，叫做 template('模板的Id', 需要渲染的数据对象) -->
+    <script src="./js/template-web.js"></script>
+    <script src="./js/jquery-3.5.1.min.js"></script>
+  </head>
+
+  <body>
+    <div id="container"></div>
+
+    <!-- 3. 定义模板 -->
+    <!-- 3.1 模板的 HTML 结构，必须定义到 script 中 -->
+    <script type="text/html" id="tpl-user">
+      <!-- 一般变量输出 -->
+      <h1>{{name}}</h1>
+      <!-- 原文输出 字符串标签 -->
+      {{@test}}
+      <!-- if判断输出 -->
+      {{if flag===0}}
+      <p>flag值为0</p>
+      {{else if flag===1}}
+      <p>flag值为1</p>
+      {{else if flag===2}}
+      <p>flag值为2</p>
+      {{/if}}
+      <!-- 循环输出 -->
+      <ul>
+        {{each hobby}}
+        <li>序号是:{{$index}}.{{$value}}</li>
+        {{/each}}
+      </ul>
+      <!-- 原始语法 -->
+      <% for(var i=0;i <= flag;i++){ %> {{i}} <% } %>
+      <!-- 过滤器使用 -->
+      {{regTime | dateFommat}}
+    </script>
+
+    <script>
+      // 定义过滤器
+      template.defaults.imports.dateFommat = function (date) {
+        const y = date.getFullYear()
+        const m = date.getMonth() + 1
+        const d = date.getDate()
+        return y + '-' + m + '-' + d
+      }
+      // 2. 定义需要渲染的数据
+      var data = { name: 'zs', age: 20, test: '<h3>测试原文输出</h3>', flag: 2, hobby: ['吃饭', '睡觉', '写代码'], regTime: new Date() }
+
+      // 4. 调用 template 函数  data是传入的对象
+      var htmlStr = template('tpl-user', data)
+      console.log(htmlStr)
+      // 5. 渲染HTML结构
+      $('#container').html(htmlStr)
+    </script>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./axios.js"></script>
+  </head>
+  <body>
+    <button>发起GET请求</button>
+    <button>发起POST请求</button>
+    <button>发起Axios中的GET请求</button>
+    <button>发起Axios中的POST请求</button>
+    <script>
+      const oBtns = document.querySelectorAll('button')
+      // 发起GET请求
+      oBtns[0].addEventListener('click', function () {
+        const url = 'http://www.liulongbin.top:3006/api/getbooks'
+        const params = {}
+        axios.get(url, { params }).then(function (res) {
+          console.log(res.data)
+        })
+      })
+      //   发起POST请求
+      oBtns[1].addEventListener('click', function () {
+        const url = 'http://www.liulongbin.top:3006/api/addbook'
+        const data = { bookname: '水浒传111', author: 'dadadada', publisher: '123' }
+        axios.post(url, data).then(function (res) {
+          console.log(res.data)
+        })
+      })
+      //   发起Axios中的GET请求
+      oBtns[2].addEventListener('click', function () {
+        const url = 'http://www.liulongbin.top:3006/api/getbooks'
+        const params = {}
+        axios({
+          method: 'GET',
+          url,
+          params
+        }).then(function (res) {
+          console.log(res.data)
+        })
+      })
+      //   发起Axios中的POST请求
+      oBtns[3].addEventListener('click', function () {
+        const url = 'http://www.liulongbin.top:3006/api/addbook'
+        const data = { bookname: '水浒传111', author: 'dadadada', publisher: '123' }
+        axios({
+          method: 'POST',
+          url,
+          data
+        }).then(function (res) {
+          console.log(res.data)
+        })
+      })
+    </script>
+  </body>
+</html>

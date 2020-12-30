@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      const obj = {
+        name: '张三',
+        age: 18,
+        sex: '男'
+      }
+      let str = '我是{{ name }},我今年{{age}}岁,我是{{sex}}生'
+      //   方法四 String.replace 最简单的方法
+      let reg = /{{\s*(\w+)\s*}}/g
+      //   replace中第一个参数是正则表达式,第二个参数是满足第一个参数的所有元素的数组,再利用数组进行操作
+      //   知道变量个数
+      //   var res = str.replace(reg, (arg0, arg1) => (arg0 = obj[arg1]))
+      //   不知道变量个数，采用剩余变量
+      var res = str.replace(reg, (...args) => obj[args[1]])
+      console.log(res)
+    </script>
+  </body>
+</html>

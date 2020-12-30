@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 创建xhr对象
+      const xhr = new XMLHttpRequest()
+      //   调用open函数
+      xhr.open('POST', 'http://www.liulongbin.top:3006/api/addbook')
+      //   setRequestHeader函数定义Content-Type属性 固定写法
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+      //   调用send函数 传输数据
+      xhr.send('bookname=史记1&author=司马迁1&publisher=11111')
+      //   注册onreadystatechange监听事件
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(xhr.responseText)
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      // 定义将对象信息转换为(key,value)键值对的查询字符串
+      function getStr(data) {
+        const arr = []
+        for (let k in data) {
+          // 将每个键值对当作数组的一个元素
+          arr.push(`${k}=${data[k]}`)
+        }
+        // 将数组拆分成键值对并且用&链接的字符串
+        return arr.join('&')
+      }
+
+      //   封装自己的Ajax函数
+      function myAjax(obj) {
+        //   创建XMLHttpRequest对象
+        const xhr = new XMLHttpRequest()
+        // 请求超时timeout
+        xhr.timeout = 2000
+        xhr.ontimeout = function () {
+          alert('请求超时')
+        }
+        // 将得到的对象中的data数据转换成查询字符串
+        const str = getStr(obj.data)
+        // 判断传入的对象发起的请求类型
+        if ((obj.method && obj.method.toUpperCase() === 'GET') || (obj.type && obj.type.toUpperCase() === 'GET')) {
+          // 如果是GET请求
+          //   调用open方法  注意这里是可以获取指定条件的数据 '?'
+          xhr.open('GET', obj.url + '?' + str)
+          //   调用send方法
+          xhr.send()
+        } else {
+          // 如果是POST请求
+          //   调用open方法
+          xhr.open('POST', obj.url)
+          //   setRequestHeader函数定义Content-Type属性 固定写法
+          xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+          //   调用send方法
+          xhr.send(str)
+        }
+        // 注册监听事件
+        xhr.onreadystatechange = function () {
+          // 这个监听事件发出了很多次 readyState 0 1 2 3 4
+          // 0 ：实例化了xhr对象
+          // 1 ：open方法执行完毕
+          // 2 ：send方法执行完毕 responseHeader接受完成
+          // 3 ：数据正在传输中
+          // 4 ：服务器数据传输完成或者失败
+          // 判断xhr的对象状态码(readyState)和http状态码(status)
+          // 对象状态码(readyState)为4时表示服务器数据发送完成
+          // http状态码(status)为200时表示服务器数据响应成功
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            obj.success(JSON.parse(xhr.responseText))
+          }
+        }
+      }
+    </script>
+
+    <script>
+      // 调用自己封装的Ajax函数
+      myAjax({
+        method: 'POST',
+        // type: 'POST',
+        url: 'http://www.liulongbin.top:3006/api/addbook',
+        data: {
+          bookname: '史记111122223333',
+          author: '司马迁111',
+          publisher: '上海图书出版社1'
+        },
+        success: function (res) {
+          console.log(res)
+        }
+      })
+    </script>
+  </body>
+</html>

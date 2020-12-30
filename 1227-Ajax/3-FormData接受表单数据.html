@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form action="" id="form1">
+      姓名：<input type="text" name="uname" id="" autocomplete="off" /><br />
+      密码：<input type="password" name="pwd" id="" />
+    </form>
+    <script>
+      // 方式二  传入form对象
+      const form = document.querySelector('#form1')
+      // 监听表单元素的 submit 事件
+      form.addEventListener('submit', function (e) {
+        e.preventDefault()
+        // 根据 form 表单创建 FormData 对象，会自动将表单数据填充到 FormData 对象中
+        // 这里就不能用serialize()  取决于后端提供的接口
+        var fd = new FormData(form)
+        var xhr = new XMLHttpRequest()
+        xhr.open('POST', 'http://www.liulongbin.top:3006/api/formdata')
+        xhr.send(fd)
+        //   注册监听事件
+        xhr.addEventListener('readystatechange', function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+            console.log(JSON.parse(xhr.responseText))
+          }
+        })
+      })
+    </script>
+  </body>
+</html>

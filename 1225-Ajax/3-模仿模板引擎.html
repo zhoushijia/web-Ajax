@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="box"></div>
+    <script type="text/html" id="tpl-msg">
+      <div>姓名：{{name}}</div>
+      <div>年龄：{{ age }}</div>
+      <div>性别：{{ gender}}</div>
+      <div>住址：{{address }}</div>
+    </script>
+    <script>
+      // 获取数据
+      const data = { name: 'zs', age: 18, gender: '男', address: '北京' }
+      //   使用自己封装的模板函数
+      const str = template('tpl-msg', data)
+      //   将拼接好的字符串渲染到页面
+      document.querySelector('.box').innerHTML = str
+
+      //   封装的模板函数
+      function template(id, data) {
+        let msgStr = document.querySelector('#' + id).innerHTML
+        const reg = /{{\s*(\w+)\s*}}/g
+        // 利用剩余变量来接受数据
+        return msgStr.replace(reg, (...args) => data[args[1]])
+      }
+    </script>
+  </body>
+</html>

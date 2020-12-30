@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //   方式一
+      // 创建一个FormData对象
+      const fd = new FormData()
+      //   向FormData空对象中添加数据
+      fd.append('uname', '李斯')
+      fd.append('age', 18)
+      // 创建xhr对象
+      const xhr = new XMLHttpRequest()
+      // open   注意FormData格式的对象只能发POST请求  且不用设置请求头Content-Type
+      xhr.open('POST', 'http://www.liulongbin.top:3006/api/formdata')
+      //   send
+      xhr.send(fd)
+      //   注册监听事件
+      xhr.addEventListener('readystatechange', function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          console.log(JSON.parse(xhr.responseText))
+        }
+      })
+    </script>
+  </body>
+</html>

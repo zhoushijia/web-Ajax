@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./assets/news.css" />
+    <script src="./lib/jquery.js"></script>
+    <!--1. 引入模板引擎的js文件 -->
+    <script src="./lib/template-web.js"></script>
+  </head>
+  <body>
+    <div id="news-list"></div>
+    <!-- 3. 构建模板结构 -->
+    <script type="text/html" id="tpl-news">
+      {{each data}}
+      <div class="news-item">
+        <img class="thumb" src="{{'http://www.liulongbin.top:3006' + $value.img}}" alt="" />
+        <div class="right-box">
+          <h1 class="title">{{$value.title}}</h1>
+          <div class="tags">
+            {{each $value.tags.split(',')}}
+            <span>{{$value}}</span>
+            {{/each}}
+          </div>
+          <div class="footer">
+            <div>
+              <span>{{$value.source}}</span>&nbsp;&nbsp;
+              <span>{{ $value.time | dateFommat}}</span>
+            </div>
+            <span>评论数：{{ $value.cmtcount }}</span>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </script>
+    <script>
+      $.ajax({
+        type: 'GET',
+        url: 'http://www.liulongbin.top:3006/api/news',
+        success(res) {
+          // 2. 获取后端传来的对象数据
+          console.log(res)
+          // 4. 调用template方法 获得拼接好的字符串
+          const contentStr = template('tpl-news', res)
+          // 5. 将字符串添加到需要的位置
+          document.querySelector('#news-list').innerHTML = contentStr
+        }
+      })
+
+      // 事件格式化及补零操作  过滤器
+      template.defaults.imports.dateFommat = function (dateStr) {
+        const date = new Date(dateStr)
+        const y = date.getFullYear()
+        const m = (date.getMonth() + 1).toString().padStart(2, 0)
+        const d = date.getDate().toString().padStart(2, 0)
+        const hh = date.getHours().toString().padStart(2, 0)
+        const mm = date.getMinutes().toString().padStart(2, 0)
+        const ss = date.getSeconds().toString().padStart(2, 0)
+        return y + '-' + m + '-' + d + ' ' + hh + ':' + mm + ':' + ss
+      }
+    </script>
+  </body>
+</html>
