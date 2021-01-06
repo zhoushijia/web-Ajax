@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 500px;
+        height: 300px;
+        border: 1px solid red;
+        /* margin: auto; */
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+    <script>
+      const div = document.querySelector('div')
+      div.onmousemove = throttle(function (e) {
+        div.innerHTML = `(${e.pageX},${e.pageY})`
+      }, 1000)
+      function throttle(cb, t) {
+        //   闭包变量flag
+        let timer = null
+        return function () {
+          if (timer) return
+          timer = setTimeout(() => {
+            cb.apply(this, arguments)
+            timer = null
+          }, t)
+        }
+      }
+    </script>
+  </body>
+</html>

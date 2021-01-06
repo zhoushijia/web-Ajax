@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      div {
+        width: 500px;
+        height: 300px;
+        border: 1px solid red;
+        /* margin: auto; */
+      }
+    </style>
+  </head>
+  <body>
+    <div></div>
+    <script>
+      const div = document.querySelector('div')
+      div.onmousemove = debounce(function (e) {
+        div.innerHTML = `(${e.pageX},${e.pageY})`
+      }, 1000)
+      function debounce(cb, t) {
+        let timer = null
+        return function () {
+          clearTimeout(timer)
+          timer = setTimeout(() => {
+            cb.apply(this, arguments)
+            console.log(arguments)
+          }, t)
+        }
+      }
+    </script>
+  </body>
+</html>
