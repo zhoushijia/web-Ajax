@@ -21,7 +21,6 @@
         div.innerHTML = `(${e.pageX},${e.pageY})`
       }, 1000)
       function throttle(cb, t) {
-        //   闭包变量flag
         let timer = null
         return function () {
           if (timer) return
